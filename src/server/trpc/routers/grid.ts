@@ -40,7 +40,7 @@ export const gridRouter = router({
         const query = `UPDATE myArrayTable SET value = "${arrayString}" WHERE id = 1`;
         await db.execute(query);
         await db.sync();
-        return arrayString;
+        return prev;
       } catch (error) {
         console.log("ERROR WHEN INSERTING");
         console.log(error);
@@ -70,7 +70,6 @@ export const gridRouter = router({
         const query = `UPDATE myArrayTable SET value = "${arrayString}" WHERE id = 1`;
         await db.execute(query);
         await db.sync();
-        return arrayString;
       } catch (error) {
         console.log(error);
         throw new TRPCError({
