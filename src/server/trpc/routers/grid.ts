@@ -27,20 +27,21 @@ export const gridRouter = router({
       const grid = await db.execute(
         "SELECT * FROM myArrayTable ORDER BY id LIMIT 1; "
       );
+
       const result = grid.rows[0]?.value! as string;
       const prev = result.split(";").map((row) => row.split(",").map(Number));
 
       prev[x][y] = !!prev[x][y] ? 0 : 1;
 
       const arrayString = prev.map((row) => row.join(",")).join(";");
+
       try {
-        await db.execute({
-          sql: "update myArrayTable set value=:value where id=:id",
-          args: { id: 1, value: arrayString },
-        });
+        const query = `UPDATE myArrayTable SET value = "${arrayString}" WHERE id = 1`;
+        await db.execute(query);
+        await db.sync();
       } catch (error) {
-        console.log(error);
         console.log("ERROR WHEN INSERTING");
+        console.log(error);
       }
 
       return;
@@ -63,10 +64,9 @@ export const gridRouter = router({
       );
       const arrayString = myArray.map((row) => row.join(",")).join(";");
       try {
-        await db.execute({
-          sql: "update myArrayTable set value=:value where id=:id",
-          args: { id: 1, value: arrayString },
-        });
+        const query = `UPDATE myArrayTable SET value = "${arrayString}" WHERE id = 1`;
+        await db.execute(query);
+        await db.sync();
       } catch (error) {
         console.log(error);
         throw new TRPCError({
