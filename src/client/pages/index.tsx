@@ -10,7 +10,7 @@ const initialData = () => Array.from({ length: 50 }, () => Array(80).fill(0));
 export default function Index() {
   const data = trpc.grid.getGrid.useQuery(undefined, {
     initialData: initialData(),
-    refetchInterval: 300,
+    refetchInterval: 800,
   });
 
   const queryClient = useQueryClient();
@@ -25,7 +25,7 @@ export default function Index() {
       );
     },
     onSuccess: (undefined, { x, y }) => {
-      data.refetch();
+      // data.refetch();
     },
   });
 
