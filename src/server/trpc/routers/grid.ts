@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { myArray, updateMyarray } from "../../data";
 import { router, publicProcedure } from "../trpc";
 import { db } from "../../db";
 import { TRPCError } from "@trpc/server";
+
 export const gridRouter = router({
   getGrid: publicProcedure.query(async () => {
     const grid = await db.execute(
@@ -21,10 +21,8 @@ export const gridRouter = router({
       })
     )
     .mutation(async (opts) => {
-      const { input } = opts;
-      const { x, y } = input;
+      const { x, y } = opts.input;
 
-      await db.sync();
       const grid = await db.execute(
         "SELECT * FROM myArrayTable ORDER BY id LIMIT 1; "
       );
@@ -38,8 +36,8 @@ export const gridRouter = router({
 
       try {
         const query = `UPDATE myArrayTable SET value = "${arrayString}" WHERE id = 1`;
-        await db.execute(query);
-        await db.sync();
+        db.execute(query);
+        db.sync();
         return prev;
       } catch (error) {
         console.log("ERROR WHEN INSERTING");
@@ -54,22 +52,19 @@ export const gridRouter = router({
         password: z.string(),
       })
     )
-    .mutation(async (opts) => {
+    .mutation((opts) => {
       const { password } = opts.input;
       if (password !== "abcdefg") {
         throw new TRPCError({ message: "ERROR", code: "UNAUTHORIZED" });
-        return;
       }
-      await db.sync();
-
       const myArray: number[][] = Array.from({ length: 50 }, () =>
         Array(80).fill(0)
       );
       const arrayString = myArray.map((row) => row.join(",")).join(";");
       try {
         const query = `UPDATE myArrayTable SET value = "${arrayString}" WHERE id = 1`;
-        await db.execute(query);
-        await db.sync();
+        db.execute(query);
+        db.sync();
       } catch (error) {
         console.log(error);
         throw new TRPCError({
