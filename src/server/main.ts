@@ -7,7 +7,7 @@ const app = express();
 
 async function test() {
   try {
-    await db.sync();
+    // await db.sync();
 
     await db.execute(
       "CREATE TABLE IF NOT EXISTS myArrayTable (id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT)"
