@@ -1,9 +1,7 @@
-import { ModeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { trpc } from "@/utils/trpc";
 import { useQueryClient } from "@tanstack/react-query";
-import { useMemo } from "react";
 
 const initialData = () => Array.from({ length: 50 }, () => Array(80).fill(0));
 
@@ -76,7 +74,7 @@ export default function Index() {
 function ClearComponent() {
   const queryClient = useQueryClient();
   const mutation = trpc.grid.clearGrid.useMutation({
-    onSuccess: () => {
+    onMutate: () => {
       queryClient.setQueryData([["grid", "getGrid"], { type: "query" }], () =>
         initialData()
       );
