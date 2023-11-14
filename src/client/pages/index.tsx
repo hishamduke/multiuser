@@ -9,8 +9,8 @@ const initialData = () => Array.from({ length: 50 }, () => Array(80).fill(0));
 
 export default function Index() {
   const data = trpc.grid.getGrid.useQuery(undefined, {
-    initialData: initialData(),
-    refetchInterval: 800,
+    // initialData: initialData(),
+    refetchInterval: 1000,
   });
 
   const queryClient = useQueryClient();
@@ -25,49 +25,52 @@ export default function Index() {
       );
     },
     onSuccess: (undefined, { x, y }) => {
-      // data.refetch();
+      setTimeout(() => {
+        data.refetch();
+      }, 200);
     },
   });
 
-  return (
-    <>
-      <div className=" flex flex-col w-full mb-10">
-        <div className="flex flex-col mx-auto">
-          {data.data?.map((val, idx) => (
-            <div className="flex flex-row " key={idx}>
-              {val.map((val, id) => (
-                <div
-                  key={id}
-                  onClick={() => mutation.mutate({ x: idx, y: id })}
-                  className={`h-1 w-1 sm:h-2 sm:w-2 ${
-                    val == 0 ? `bg-gray-700` : "bg-gray-300"
-                  } cursor-pointer transition-all`}
-                ></div>
-              ))}
-            </div>
-          ))}
+  if (data.data)
+    return (
+      <>
+        <div className=" flex flex-col w-full mb-10">
+          <div className="flex flex-col mx-auto">
+            {data.data?.map((val, idx) => (
+              <div className="flex flex-row " key={idx}>
+                {val.map((val, id) => (
+                  <div
+                    key={id}
+                    onClick={() => mutation.mutate({ x: idx, y: id })}
+                    className={`h-1 w-1 sm:h-2 sm:w-2 ${
+                      val == 0 ? `bg-gray-700` : "bg-gray-300"
+                    } cursor-pointer transition-all`}
+                  ></div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <ClearComponent />
-      <br />
-      <br />
-    </>
-  );
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <ClearComponent />
+        <br />
+        <br />
+      </>
+    );
 }
 
 function ClearComponent() {
