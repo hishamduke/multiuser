@@ -7,11 +7,13 @@ const app = express();
 
 async function test() {
   try {
-    db.execute(
+    await db.sync();
+
+    await db.execute(
       "CREATE TABLE IF NOT EXISTS myArrayTable (id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT)"
     );
-    const res = await db.execute("SELECT * FROM myArrayTable");
 
+    const res = await db.execute("SELECT * FROM myArrayTable");
     if (!res.rows.length) {
       const myArray: number[][] = Array.from({ length: 50 }, () =>
         Array(80).fill(0)
@@ -22,7 +24,6 @@ async function test() {
           sql: "insert into myArrayTable values (:id, :value)",
           args: { id: 1, value: arrayString },
         });
-     
       } catch (error) {
         console.log(error);
         console.log("ERROR WHEN INSERTING");
