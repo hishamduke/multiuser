@@ -24,7 +24,7 @@ export const gridRouter = router({
       const { input } = opts;
       const { x, y } = input;
 
-      await db.sync();
+      // await db.sync();
       const grid = await db.execute(
         "SELECT * FROM myArrayTable ORDER BY id LIMIT 1; "
       );
@@ -39,7 +39,7 @@ export const gridRouter = router({
       try {
         const query = `UPDATE myArrayTable SET value = "${arrayString}" WHERE id = 1`;
         await db.execute(query);
-        await db.sync();
+        // await db.sync();
       } catch (error) {
         console.log("ERROR WHEN INSERTING");
         console.log(error);
@@ -59,7 +59,7 @@ export const gridRouter = router({
         throw new TRPCError({ message: "ERROR", code: "UNAUTHORIZED" });
         return;
       }
-      await db.sync();
+      // await db.sync();
 
       const myArray: number[][] = Array.from({ length: 50 }, () =>
         Array(80).fill(0)
@@ -68,7 +68,7 @@ export const gridRouter = router({
       try {
         const query = `UPDATE myArrayTable SET value = "${arrayString}" WHERE id = 1`;
         await db.execute(query);
-        await db.sync();
+        // await db.sync();
       } catch (error) {
         console.log(error);
         throw new TRPCError({
