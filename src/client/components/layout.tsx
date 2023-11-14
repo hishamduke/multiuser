@@ -17,7 +17,7 @@ export default function Layout({ children }: TLayoutProps) {
 
       <div className=" grow w-full    ">{children}</div>
       <div className="flex justify-center font-mono mb-2 ">
-        <a className="hover:underline cursor-pointer">_hixm</a>
+        <a className="hover:underline cursor-pointer" href="hixm.vercel.app">_hixm</a>
       </div>
     </div>
   );
