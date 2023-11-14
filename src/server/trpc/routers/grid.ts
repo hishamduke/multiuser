@@ -24,6 +24,7 @@ export const gridRouter = router({
       const { input } = opts;
       const { x, y } = input;
 
+      await db.sync();
       const grid = await db.execute(
         "SELECT * FROM myArrayTable ORDER BY id LIMIT 1; "
       );
@@ -58,6 +59,7 @@ export const gridRouter = router({
         throw new TRPCError({ message: "ERROR", code: "UNAUTHORIZED" });
         return;
       }
+      await db.sync();
 
       const myArray: number[][] = Array.from({ length: 50 }, () =>
         Array(80).fill(0)
