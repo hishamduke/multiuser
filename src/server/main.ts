@@ -11,7 +11,7 @@ async function test() {
       "CREATE TABLE IF NOT EXISTS myArrayTable (id INTEGER PRIMARY KEY AUTOINCREMENT, value TEXT)"
     );
     const res = await db.execute("SELECT * FROM myArrayTable");
-    console.log(res);
+
     if (!res.rows.length) {
       const myArray: number[][] = Array.from({ length: 50 }, () =>
         Array(80).fill(0)
@@ -22,7 +22,7 @@ async function test() {
           sql: "insert into myArrayTable values (:id, :value)",
           args: { id: 1, value: arrayString },
         });
-        console.log(insertOne);
+     
       } catch (error) {
         console.log(error);
         console.log("ERROR WHEN INSERTING");
