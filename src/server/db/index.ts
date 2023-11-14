@@ -10,5 +10,5 @@ const url = "file:src/server/db/sqlite.db";
 export const db = createClient({
   url,
   authToken,
-  syncUrl,
+  // syncUrl,
 });
