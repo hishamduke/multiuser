@@ -25,9 +25,9 @@ export default function Index() {
       );
     },
     onSuccess: (undefined, { x, y }) => {
-      setTimeout(() => {
-        data.refetch();
-      }, 200);
+      // setTimeout(() => {
+      //   data.refetch();
+      // }, 200);
     },
   });
 
