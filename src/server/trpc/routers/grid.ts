@@ -36,8 +36,8 @@ export const gridRouter = router({
 
       try {
         const query = `UPDATE myArrayTable SET value = "${arrayString}" WHERE id = 1`;
-        db.execute(query);
-        db.sync();
+        await db.execute(query);
+        await db.sync();
         return prev;
       } catch (error) {
         console.log("ERROR WHEN INSERTING");
