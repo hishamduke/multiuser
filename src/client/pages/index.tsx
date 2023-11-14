@@ -6,17 +6,21 @@ import { useQueryClient } from "@tanstack/react-query";
 const initialData = () => Array.from({ length: 50 }, () => Array(80).fill(0));
 
 export default function Index() {
+  const queryClient = useQueryClient();
+
   const data = trpc.grid.getGrid.useQuery(undefined, {
     // initialData: initialData(),
-    refetchInterval: 1000,
+    refetchInterval: !queryClient.isMutating() ? 1000 : false,
   });
-
-  const queryClient = useQueryClient();
 
   const mutation = trpc.grid.updateGrid.useMutation({
     onMutate: ({ x, y }) => {
-      let newData: number[][] = data.data!;
+      let newData: number[][] =
+        queryClient.getQueryData([["grid", "getGrid"], { type: "query" }]) ??
+        initialData();
+
       newData[x][y] = !!newData[x][y] ? 0 : 1;
+
       queryClient.setQueryData(
         [["grid", "getGrid"], { type: "query" }],
         () => newData
